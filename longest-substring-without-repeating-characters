@@ -1,0 +1,23 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+    if (s.length <= 1) return s.length;
+    
+    return Array.from(s).reduce((acc, cur) => {
+        if (~~acc.list.some(d => d === cur)){
+            let i = Math.max(
+                acc.list.lastIndexOf(d => d === cur), 
+                acc.list.findIndex(d => d===cur)
+            ) || 1;
+            
+            acc.list = acc.list.slice(i)
+            .filter(d => d !== cur);
+        }
+        acc.list.push(cur);
+        acc.v = Math.max(acc.v, acc.list.length);
+        
+        return acc;
+    }, {list: [], v: 0}).v;
+};
