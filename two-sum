@@ -1,0 +1,13 @@
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+const twoSum = (nums, target) => nums.reduce((acc, d, i) => {
+    if (acc.dict.hasOwnProperty(target-d) && acc.dict[target-d] !== i){
+        acc.r = [i, acc.dict[target-d]];
+    }
+    acc.dict[d] = i;
+
+    return acc;
+}, {dict: {}, r: [null, null]}).r;
