@@ -1,0 +1,27 @@
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var reverse = function(x) {
+    let {num, isNeg} = Array.from(x.toString()).
+    reduce((acc, cur, i) => {
+        if (cur === '-'){
+            acc.isNeg = true;
+        }
+        
+        if (cur.match(/[1-9]/)){
+            acc.num = cur + acc.num;
+        }
+        
+        if ((acc.num.length >= 1 || acc.num.length === 0 ) && cur === '0'){
+            acc.num = cur + acc.num;
+        }
+         
+        return acc;
+    }, {num: '', isNeg: false});
+    
+    if (Number(num) >= 2147483647){
+        return 0;
+    }
+    return (isNeg ? -1 : 1) * Number(num);
+};
