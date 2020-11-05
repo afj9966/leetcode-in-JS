@@ -1,0 +1,32 @@
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+const threeSum = (nums) => nums.reduce((pacc, pcur, pi) => {
+  nums.map(n => {
+    const combination = [pcur, n, -pcur - n].sort((a, b) => a - b);
+
+    if (
+      pacc.stats.exist.has(-pcur - n)
+      && !pacc.data.map(JSON.stringify).some(d => d === JSON.stringify(combination))  // no existing pairs
+      && combination.every(c => combination.filter(d => d === c).length <= pacc.stats.count[`$${c}`]) // every number will not be double counted nor triple-counted
+    ) {
+      pacc.data.push(combination);
+    }
+  });
+
+  return pacc;
+}, {
+  stats: nums.reduce((existAcc, existCur) => {
+    existAcc.exist.add(existCur);
+
+    if (!existAcc.count.hasOwnProperty(`$${existCur}`)) {
+      existAcc.count[`$${existCur}`] = 0;
+    }
+
+    existAcc.count[`$${existCur}`] += 1;
+
+    return existAcc;
+  }, { exist: new Set(), count: {} }),
+  data: []
+}).data;
