@@ -1,0 +1,32 @@
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+const canJump = (nums) => nums.reduce((acc, cur, i) => {
+    if (acc.end || acc.data) {
+        return acc;
+    }
+
+    if (cur === 0) {
+        if (nums.length === 1) {
+            acc.data = true;
+        } else if (i !== nums.length - 1 && acc.maxIndex <= i){
+            acc.data = false;
+            acc.end = true;
+        }
+    }
+
+    if ((cur + i >= (nums.length - 1)) && (i <= acc.maxIndex)) {   // last condition
+        acc.data = true;
+        acc.end = true;
+    }
+    if (i !== nums.length - 1) {    // if not last iteration
+        acc.maxIndex = Math.max(acc.maxIndex, cur + i);
+    }
+
+    return acc;
+}, {
+    data: false,
+    end: false,
+    maxIndex: 0
+}).data;
